@@ -26,6 +26,9 @@ ndisasm ./boot.bin
 # References
 
 # Setup
+- Running on Linux x86 system
+- In this case I am using WSL
+
 ```bash
 sudo apt-get upgrade
 sudo apt install nasm

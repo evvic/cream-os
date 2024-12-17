@@ -1,7 +1,17 @@
-ORG 0x7c00 ; origin
-BITS 16    ; ensure assmebler will only assemble instructions into 16-bit code
+ORG 0               ; origin
+BITS 16             ; ensure assmebler will only assemble instructions into 16-bit code
+
+jmp 0x7c0:start     ; make the code segment 0x7c0
 
 start:
+    cli             ; clear (disable) interrupts durign critical operations
+    mov ax, 0x7c0   ; must put 0x7c0 into ax first (processor requirement)
+    mov ds, ax      ; data segment
+    mov es, ax      ; extra segment
+    mov ax, 0x00    ; stack segment grows down, start ax at 0 for stack assignment
+    mov ss, ax      ; set the stack segment to 0
+    mov sp, 0x7c00  ; stack pointer to 0x7c00
+    sti             ; enables interrupts
     mov si, message ; move the address of the message label into si register
     call print      ; calls print sub-routine
     jmp $
