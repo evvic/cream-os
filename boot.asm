@@ -10,6 +10,13 @@ times 33 db 0       ; after the short jump fill in 33 bytes to cover the BIOS pa
 start:
     jmp 0x7c0:step2 ; replace the code segment register with 0x7c0
 
+handle_zero:        ; handle interrupt 0 (overrides default interrupt 0)
+    mov ah, 0eh     ; set ah to 0eh (BIOS to output to screen)
+    mov al, '0'
+    mov bx, 0x00    ; set page number to 0
+    int 0x10        ; invoke BIOS
+    iret
+
 step2:
     cli             ; clear (disable) interrupts durign critical operations
     mov ax, 0x7c0   ; must put 0x7c0 into ax first (processor requirement)
@@ -19,6 +26,13 @@ step2:
     mov ss, ax      ; set the stack segment to 0
     mov sp, 0x7c00  ; stack pointer to 0x7c00
     sti             ; enables interrupts
+
+    ; Set up Interrupt Vector Table
+    mov word[ss:0x00], handle_zero  ; specify offset stack segment is 0 which is correct offset
+    mov word[ss:0x02], 0x7c0        ; specify segment
+
+    int 0
+
     mov si, message ; move the address of the message label into si register
     call print      ; calls print sub-routine
     jmp $
