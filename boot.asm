@@ -1,9 +1,16 @@
 ORG 0               ; origin
 BITS 16             ; ensure assmebler will only assemble instructions into 16-bit code
 
-jmp 0x7c0:start     ; make the code segment 0x7c0
+_start:
+    jmp short start ; jumps to start label
+    nop             ; no operation required for BIOS block
+
+times 33 db 0       ; after the short jump fill in 33 bytes to cover the BIOS parameter block
 
 start:
+    jmp 0x7c0:step2 ; replace the code segment register with 0x7c0
+
+step2:
     cli             ; clear (disable) interrupts durign critical operations
     mov ax, 0x7c0   ; must put 0x7c0 into ax first (processor requirement)
     mov ds, ax      ; data segment
