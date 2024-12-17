@@ -34,4 +34,11 @@ sudo apt-get upgrade
 sudo apt install make
 sudo apt install nasm
 sudo apt install qemu-system-x86
+sudo apt install bless
 ```
+
+- Using the [Bless hex editor](https://www.thinkpenguin.com/gnu-linux/bless-hex-editor)
+```bash
+bless ./boot.bin
+```
+- Use Bless to inspect binaries!

@@ -10,21 +10,8 @@ times 33 db 0       ; after the short jump fill in 33 bytes to cover the BIOS pa
 start:
     jmp 0x7c0:step2 ; replace the code segment register with 0x7c0
 
-handle_zero:        ; handle interrupt 0 (overrides default interrupt 0)
-    mov ah, 0eh     ; set ah to 0eh (BIOS to output to screen)
-    mov al, '0'
-    mov bx, 0x00    ; set page number to 0
-    int 0x10        ; invoke BIOS
-    iret
-
-handle_one:
-    mov ah, 0eh     ; set ah to 0eh (BIOS to output to screen)
-    mov al, '1'
-    mov bx, 0x00    ; set page number to 0
-    int 0x10        ; invoke BIOS
-    iret
-
 step2:
+    ; Initalize segment values
     cli             ; clear (disable) interrupts durign critical operations
     mov ax, 0x7c0   ; must put 0x7c0 into ax first (processor requirement)
     mov ds, ax      ; data segment
@@ -34,17 +21,23 @@ step2:
     mov sp, 0x7c00  ; stack pointer to 0x7c00
     sti             ; enables interrupts
 
-    ; Set up Interrupt Vector Table
-    mov word[ss:0x00], handle_zero  ; specify offset stack segment is 0 which is correct offset
-    mov word[ss:0x02], 0x7c0        ; specify segment
+    ; Read from disk
+    mov ah, 2       ; read sector command
+    mov al, 1       ; specify 1 sector to read
+    mov ch, 0       ; cylinder number
+    mov cl, 2       ; read sector 2
+    mov dh, 0       ; head number
+    mov bx, buffer  ; store sector into buffer
+    int 0x13        ; invoke the BIOS read command
+    jc error        ; jump-carry to error if there is a carry
 
-    mov word[ss:0x04], handle_one   ; specify offset stack segment is 0 which is correct offset
-    mov word[ss:0x06], 0x7c0        ; specify segment
+    mov si, buffer  ; move the address of the buffer label into si register
+    call print      ; calls print sub-routine
 
-    int 0
-    int 1
+    jmp $
 
-    mov si, message ; move the address of the message label into si register
+error:
+    mov si, error_message ; move the address of the error_message label into si register
     call print      ; calls print sub-routine
     jmp $
 
@@ -65,7 +58,10 @@ print_char:
     int 0x10        ; call interrupt 0x10 which will invoke the BIOS (which will see the 0eh) to print the char
     ret
 
-message: db 'Hello World!', 0
+error_message: db 'Failed to load sector', 0
 
 times 510- ($ - $$) db 0
 dw 0xAA55
+
+buffer:             ; BIOS has only 1 loaded sector
+
