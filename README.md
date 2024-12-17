@@ -31,6 +31,7 @@ ndisasm ./boot.bin
 
 ```bash
 sudo apt-get upgrade
+sudo apt install make
 sudo apt install nasm
 sudo apt install qemu-system-x86
 ```
