@@ -1,9 +1,9 @@
 ORG 0x7c00          ; origin, offset is 0x7c0
-BITS 16             ; ensure assmebler will only assemble instructions into 16-bit code
+[BITS 16]           ; ensure assmebler will only assemble instructions into 16-bit code
 
 ; Calculate 0x8 and 0x10 offsets
 CODE_SEG equ gdt_code - gdt_start
-DATA_SEG equ gdt_code - gdt_start
+DATA_SEG equ gdt_data - gdt_start
 
 _start:
     jmp short start ; jumps to start label
