@@ -9,7 +9,7 @@ _start:
     jmp short start ; jumps to start label
     nop             ; no operation required for BIOS block
 
-times 33 db 0       ; after the short jump fill in 33 bytes to cover the BIOS parameter block
+ times 33 db 0       ; after the short jump fill in 33 bytes to cover the BIOS parameter block
 
 start:
     jmp 0:step2     ; the code segment will change to 0 from the jump
@@ -34,7 +34,6 @@ step2:
 
 ; GDT
 gdt_start:
-
 gdt_null:
     dd 0x0
     dd 0x0
