@@ -1,14 +1,22 @@
 # cream-os
 Handmade Linux Kernel
 
-## Build Real Mode Boot
+## Build real mode boot
 ```bash
 nasm -f bin ./boot.asm -o ./boot.bin
 ```
 
-## Run Boot Emulator
+## Run boot emulator
 ```bash
 qemu-system-x86_64 -hda ./boot.bin
+```
+
+### Attach debugger to emulator
+- First just type `gdb` to enter the debugger
+- Then set the target
+```bash
+gdb
+target remote | qemu-system-x86_64 -hda ./boot.bin -S -gdb stdio
 ```
 
 ### Check the built binary
@@ -35,6 +43,7 @@ sudo apt install make
 sudo apt install nasm
 sudo apt install qemu-system-x86
 sudo apt install bless
+sudo apt install gdb
 ```
 
 - Using the [Bless hex editor](https://www.thinkpenguin.com/gnu-linux/bless-hex-editor)
