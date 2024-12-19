@@ -16,7 +16,7 @@ qemu-system-x86_64 -hda ./boot.bin
 - Then set the target
 ```bash
 gdb
-target remote | qemu-system-x86_64 -hda ./boot.bin -S -gdb stdio
+target remote | qemu-system-x86_64 -hda ./bin/boot.bin -S -gdb stdio
 ```
 
 ### Check the built binary
