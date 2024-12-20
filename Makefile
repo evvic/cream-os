@@ -10,9 +10,9 @@ setup:
 
 all: setup ./bin/boot.bin ./bin/kernel.bin
 	rm -rf ./bin/os.bin
-	dd if=./bin/boot.bin of=./bin/os.bin
-	dd if=./bin/kernel.bin of=./bin/os.bin
-	dd if=/dev/zero bs=512 count=10 of=./bin/os.bin
+	dd if=./bin/boot.bin >> ./bin/os.bin
+	dd if=./bin/kernel.bin >> ./bin/os.bin
+	dd if=/dev/zero bs=512 count=10 >> ./bin/os.bin
 
 ./bin/kernel.bin: $(FILES)
 	i686-elf-ld -g -relocatable $(FILES) -o ./build/kernelfull.o

@@ -1,14 +1,15 @@
 # cream-os
 Handmade Linux Kernel
 
-## Build real mode boot
+## Build OS
 ```bash
-nasm -f bin ./src/boot/boot.asm -o ./bin/boot.bin
+make clean all
 ```
+- Created a `bin/os.bin` object 
 
 ## Run boot emulator
 ```bash
-qemu-system-x86_64 -hda ./bin/boot.bin
+qemu-system-x86_64 -hda ./bin/os.bin
 ```
 
 ### Attach debugger to emulator
@@ -16,7 +17,7 @@ qemu-system-x86_64 -hda ./bin/boot.bin
 - Then set the target
 ```bash
 gdb
-target remote | qemu-system-x86_64 -hda ./bin/boot.bin -S -gdb stdio
+target remote | qemu-system-x86_64 -hda ./bin/os.bin -S -gdb stdio
 ```
 
 ### Check the built binary
