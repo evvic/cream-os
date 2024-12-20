@@ -26,8 +26,7 @@ all: setup ./bin/boot.bin ./bin/kernel.bin
 
 clean:
 	rm -rf ./bin/boot.bin
-
-##
-## LEFT OFF AT 18:30/38:38
-##
-##
+	rm -rf ./bin/kernel.bin
+	rm -rf ./bin/os.bin
+	rm -rf ${FILES}
+	rm -rf ./build/kernelfull.o
