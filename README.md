@@ -17,6 +17,7 @@ qemu-system-x86_64 -hda ./bin/os.bin
 - Then set the target
 ```bash
 gdb
+add-symbol-file ./build/kernelfull.o 0x100000
 target remote | qemu-system-x86_64 -hda ./bin/os.bin -S -gdb stdio
 ```
 

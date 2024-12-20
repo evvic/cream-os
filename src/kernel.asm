@@ -1,6 +1,7 @@
 [BITS 32]           ; all code after this is seen as 32-bit code
                     ; can no longer access the BIOS once in protected mode
 global _start
+extern kernel_main
 
 CODE_SEG equ 0x08
 DATA_SEG equ 0x10
@@ -21,6 +22,7 @@ _start:
     or al, 2        ; bitwise OR on al register with 0b00000010
     out 0x92, al
 
+    call kernel_main
     jmp $
 
 times 512- ($ - $$) db 0
