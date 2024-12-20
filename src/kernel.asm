@@ -1,6 +1,11 @@
 [BITS 32]           ; all code after this is seen as 32-bit code
                     ; can no longer access the BIOS once in protected mode
-load32:
+global _start
+
+CODE_SEG equ 0x08
+DATA_SEG equ 0x10
+
+_start:
     ; setup segment registers
     mov ax, DATA_SEG
     mov ds, ax
