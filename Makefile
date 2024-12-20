@@ -4,7 +4,7 @@ FILES = ./build/kernel.asm.o
 # setup sets the bash environment variables (for the cross-compiler)
 .PHONY: setup
 setup:
-	/bin/bash -c 'source ./build.sh'
+	/bin/bash -c 'source ./exports.sh'
 
 # TODO: make cross-compiler
 
