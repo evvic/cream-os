@@ -1,4 +1,7 @@
 # -g : adds debugging symbols
+
+# The order of the files is important!
+# Based on src/linker.ld and how the asm and C align for compilation
 FILES = ./build/kernel.asm.o
 
 # setup sets the bash environment variables (for the cross-compiler)
